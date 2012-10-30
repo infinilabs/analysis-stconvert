@@ -1,0 +1,71 @@
+package org.elasticsearch.index.analysis;
+
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import org.apache.lucene.analysis.TokenFilter;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+
+import java.io.IOException;
+
+/**
+ */
+public class STConvertTokenFilter extends TokenFilter {
+
+    private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
+    private String delimiter=",";
+    private ConvertType convertType=ConvertType.simple2traditional;
+    private Boolean keepBoth=false;
+    @Override
+    public final boolean incrementToken() throws IOException {
+        if (!input.incrementToken()) {
+            return false;
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        String str = termAtt.toString();
+        termAtt.setEmpty();
+        String converted= STConverter.convert(str, convertType);
+        if(!converted.isEmpty())
+        {
+            stringBuilder.append(converted);
+            if(keepBoth){
+                stringBuilder.append(delimiter);
+                stringBuilder.append(str);
+            }
+        }else
+        {
+            stringBuilder.append(str);
+        }
+
+        termAtt.setEmpty();
+        termAtt.resizeBuffer(stringBuilder.length());
+        termAtt.append(stringBuilder.toString());
+        termAtt.setLength(stringBuilder.length());
+        return true;
+    }
+
+    public STConvertTokenFilter(TokenStream in, ConvertType convertType,String delimiter,Boolean keepBoth) {
+        super(in);
+        this.delimiter = delimiter;
+        this.convertType = convertType;
+        this.keepBoth=keepBoth;
+    }
+}
