@@ -16,11 +16,8 @@ package org.elasticsearch.index.analysis;
  * limitations under the License.
  */
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.Tokenizer;
 import org.elasticsearch.common.settings.Settings;
 
-import java.io.IOException;
 import java.io.Reader;
 
 
@@ -42,31 +39,12 @@ public final class STConvertAnalyzer extends Analyzer {
     }
 
     @Override
-    public TokenStream tokenStream(String fieldName, Reader reader) {
+    protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
         ConvertType convertType=ConvertType.traditional2simple;
         if(type.equals("s2t")){
             convertType = ConvertType.simple2traditional;
         }
-        return new STConvertTokenizer(reader,convertType, delimiter,keepBoth);
+        return  new TokenStreamComponents(new STConvertTokenizer(reader,convertType, delimiter,keepBoth));
     }
 
-    @Override
-    public TokenStream reusableTokenStream(String fieldName, Reader reader) throws IOException {
-
-        //得到上一次使用的TokenStream，如果没有则生成新的，并且用setPreviousTokenStream放入成员变量，使得下一个可用。
-        Tokenizer tokenizer = (Tokenizer) getPreviousTokenStream();
-
-        if (tokenizer == null) {
-            ConvertType convertType=ConvertType.traditional2simple;
-            if(type.equals("s2t")){
-                convertType = ConvertType.simple2traditional;
-            }
-            tokenizer = new STConvertTokenizer(reader,convertType, delimiter,keepBoth);
-            setPreviousTokenStream(tokenizer);
-        } else {
-            //如果上一次生成过TokenStream，则reset初始化。
-            tokenizer.reset(reader);
-        }
-        return tokenizer;
-    }
 }

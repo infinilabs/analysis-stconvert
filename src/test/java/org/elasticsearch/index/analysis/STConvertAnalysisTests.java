@@ -21,7 +21,7 @@ package org.elasticsearch.index.analysis;
 
 import junit.framework.Assert;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.KeywordAnalyzer;
+import org.apache.lucene.analysis.core.KeywordAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.util.Version;
@@ -37,8 +37,10 @@ import org.elasticsearch.indices.analysis.IndicesAnalysisService;
 import org.hamcrest.MatcherAssert;
 import org.testng.annotations.Test;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.elasticsearch.common.settings.ImmutableSettings.Builder.EMPTY_SETTINGS;
 import static org.hamcrest.Matchers.instanceOf;
@@ -74,6 +76,7 @@ public class STConvertAnalysisTests {
         Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_36);
         STConvertTokenFilter filter = new STConvertTokenFilter(analyzer.tokenStream("f",sr),ConvertType.simple2traditional,",",true);
         List<String>  list= new ArrayList<String>();
+        filter.reset();
         while (filter.incrementToken())
         {
             CharTermAttribute ta = filter.getAttribute(CharTermAttribute.class);
@@ -112,7 +115,7 @@ public class STConvertAnalysisTests {
 
 
             boolean hasnext = tokenizer.incrementToken();
-
+            tokenizer.reset();
             while (hasnext) {
 
                 CharTermAttribute ta = tokenizer.getAttribute(CharTermAttribute.class);

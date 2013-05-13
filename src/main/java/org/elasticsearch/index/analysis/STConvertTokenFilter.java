@@ -20,7 +20,6 @@ package org.elasticsearch.index.analysis;
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 
 import java.io.IOException;
 
@@ -34,6 +33,7 @@ public class STConvertTokenFilter extends TokenFilter {
     private Boolean keepBoth=false;
     @Override
     public final boolean incrementToken() throws IOException {
+
         if (!input.incrementToken()) {
             return false;
         }
@@ -55,7 +55,7 @@ public class STConvertTokenFilter extends TokenFilter {
             stringBuilder.append(str);
         }
 
-        termAtt.setEmpty();
+//        termAtt.setEmpty();
         termAtt.resizeBuffer(stringBuilder.length());
         termAtt.append(stringBuilder.toString());
         termAtt.setLength(stringBuilder.length());
