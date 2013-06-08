@@ -89,5 +89,10 @@ public class STConvertTokenizer extends Tokenizer {
         this.done = false;
     }
 
+    public void reset() throws IOException {
+        super.reset();
+        this.done = false;
+    }
+
 
 }
