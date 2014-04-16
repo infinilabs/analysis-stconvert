@@ -1,4 +1,4 @@
-package org.elasticsearch.plugin.analysis.pinyin;
+package org.elasticsearch.plugin.analysis.stconvert;
 
 import org.elasticsearch.index.analysis.AnalysisModule;
 import org.elasticsearch.index.analysis.STConvertAnalysisBinderProcessor;
