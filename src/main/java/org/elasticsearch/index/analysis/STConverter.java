@@ -133,7 +133,3 @@ public class STConverter {
 
 }
 
-enum ConvertType{
-    simple2traditional,
-    traditional2simple,
-}

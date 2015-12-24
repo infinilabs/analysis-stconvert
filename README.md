@@ -18,18 +18,53 @@ you can download this plugin from RTF project(https://github.com/medcl/elasticse
     | 1.1.0                        | 0.19.0 -> 0.20.x |
     --------------------------------------------------
 
-The plugin includes a `stconvert` analyzer , a tokenizer: `stconvert`  and a token-filter:  `stconvert` .
+The plugin includes several analyzers: `stconvert`,`tsconvert`,`stconvert_keep_both`,`tsconvert_keep_both`,
+ several tokenizers: `stconvert`,`tsconvert`,`stconvert_keep_both`,`tsconvert_keep_both`
+ and several token-filters:  `stconvert`,`tsconvert`,`stconvert_keep_both`,`tsconvert_keep_both` .
 
-delimiter:","
-keep_both:"false" ,
-convert_type:"s2t"
+Config:
 
-optional config:
+1.`delimiter`:default `,`
+
+2.`keep_both`:default `false` ,
+
+3.`convert_type`: default `s2t`
+,optional option:
+
 1. `s2t` ,convert characters between simple chinese and traditional chinese
 2. `t2s` ,convert characters between traditional chinese and simple chinese
 
 
-Test
+Analyze tests
+
+```
+  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9b%bd%e9%99%85%e7%94%b5%e8%a7%86%e5%8f%b0%2c%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&tokenizer\=stconvert
+{"tokens":[{"token":"北京國際電視檯","start_offset":0,"end_offset":7,"type":"word","position":0},{"token":"北京國際電視臺","start_offset":8,"end_offset":15,"type":"word","position":2}]}%                                                      
+
+➜  ~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9b%bd%e9%99%85%e7%94%b5%e8%a7%86%e5%8f%b0%2c%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&tokenizer\=tsconvert
+{"tokens":[{"token":"北京国际电视台","start_offset":0,"end_offset":7,"type":"word","position":0},{"token":"北京国际电视台","start_offset":8,"end_offset":15,"type":"word","position":2}]}%                                                      
+
+➜  ~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9b%bd%e9%99%85%e7%94%b5%e8%a7%86%e5%8f%b0%2c%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&tokenizer\=tsconvert_keep_both
+{"tokens":[{"token":"北京国际电视台,北京国际电视台","start_offset":0,"end_offset":7,"type":"word","position":0},{"token":"北京国际电视台,北京國際電視臺","start_offset":8,"end_offset":15,"type":"word","position":2}]}%                        
+
+➜  ~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9b%bd%e9%99%85%e7%94%b5%e8%a7%86%e5%8f%b0%2c%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&tokenizer\=stconvert_keep_both
+{"tokens":[{"token":"北京國際電視檯,北京国际电视台","start_offset":0,"end_offset":7,"type":"word","position":0},{"token":"北京國際電視臺,北京國際電視臺","start_offset":8,"end_offset":15,"type":"word","position":2}]}%                        
+
+➜  ~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9b%bd%e9%99%85%e7%94%b5%e8%a7%86%e5%8f%b0%2c%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&analyzer\=stconvert_keep_both
+{"tokens":[{"token":"北京國際電視檯,北京国际电视台","start_offset":0,"end_offset":7,"type":"word","position":0},{"token":"北京國際電視臺,北京國際電視臺","start_offset":8,"end_offset":15,"type":"word","position":102}]}%                      
+
+➜  ~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9b%bd%e9%99%85%e7%94%b5%e8%a7%86%e5%8f%b0%2c%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&analyzer\=tsconvert_keep_both
+{"tokens":[{"token":"北京国际电视台,北京国际电视台","start_offset":0,"end_offset":7,"type":"word","position":0},{"token":"北京国际电视台,北京國際電視臺","start_offset":8,"end_offset":15,"type":"word","position":102}]}%                      
+
+➜  ~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9b%bd%e9%99%85%e7%94%b5%e8%a7%86%e5%8f%b0%2c%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&analyzer\=tsconvert         
+{"tokens":[{"token":"北京国际电视台","start_offset":0,"end_offset":7,"type":"word","position":0},{"token":"北京国际电视台","start_offset":8,"end_offset":15,"type":"word","position":102}]}%                                                    
+
+➜  ~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9b%bd%e9%99%85%e7%94%b5%e8%a7%86%e5%8f%b0%2c%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&analyzer\=stconvert
+{"tokens":[{"token":"北京國際電視檯","start_offset":0,"end_offset":7,"type":"word","position":0},{"token":"北京國際電視臺","start_offset":8,"end_offset":15,"type":"word","position":102}]}%                                                    
+
+```
+
+Custom analyzer example:
 
 elasticsearch.yml
 
@@ -101,21 +136,4 @@ index:
         delimiter: ","
         keep_both: 'true'
         convert_type: t2s
-```
-
-analyze tests
-
-```
- ~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e6%97%b6%e9%97%b4\&tokenizer\=s2t_keep_both_convert
-{"tokens":[{"token":"北京時間,北京时间","start_offset":0,"end_offset":4,"type":"word","position":1}]}%
-~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&tokenizer\=t2s_keep_both_convert
-{"tokens":[{"token":"北京国际电视台,北京國際電視臺","start_offset":0,"end_offset":7,"type":"word","position":1}]}%
-~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&tokenizer\=t2s_convert
-{"tokens":[{"token":"北京国际电视台","start_offset":0,"end_offset":7,"type":"word","position":1}]}%
-~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&analyzer\=t2s_convert
-{"tokens":[{"token":"北京国际电视台","start_offset":0,"end_offset":7,"type":"word","position":1}]}%
-~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&filters\=t2s_convert
-{"tokens":[{"token":"北京國際電視臺","start_offset":0,"end_offset":7,"type":"word","position":1}]}%
-~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&tokenizer\=keyword\&filters\=t2s_convert
-{"tokens":[{"token":"北京国际电视台","start_offset":0,"end_offset":7,"type":"word","position":1}]}%
 ```
