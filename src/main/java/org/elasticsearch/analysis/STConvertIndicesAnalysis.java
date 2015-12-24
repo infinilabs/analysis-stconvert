@@ -10,6 +10,8 @@ import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.analysis.*;
 import org.elasticsearch.indices.analysis.IndicesAnalysisService;
 
+import java.io.Reader;
+
 /**
  * Registers indices level analysis components so, if not explicitly configured,
  * will be shared among all indices.
@@ -62,7 +64,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public Tokenizer create() {
-                        return new STConvertTokenizer(ConvertType.simple2traditional,",",false);
+                        return new STConvertTokenizer(STConvertType.simple2traditional,",",false);
                     }
                 }));
 
@@ -75,7 +77,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public Tokenizer create() {
-                        return new STConvertTokenizer(ConvertType.traditional2simple,",",false);
+                        return new STConvertTokenizer(STConvertType.traditional2simple,",",false);
                     }
                 }));
         indicesAnalysisService.tokenizerFactories().put("stconvert_keep_both",
@@ -87,7 +89,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public Tokenizer create() {
-                        return new STConvertTokenizer(ConvertType.simple2traditional,",",true);
+                        return new STConvertTokenizer(STConvertType.simple2traditional,",",true);
                     }
                 }));
         indicesAnalysisService.tokenizerFactories().put("tsconvert_keep_both",
@@ -99,7 +101,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public Tokenizer create() {
-                        return new STConvertTokenizer(ConvertType.traditional2simple,",",true);
+                        return new STConvertTokenizer(STConvertType.traditional2simple,",",true);
                     }
                 }));
 
@@ -115,7 +117,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public TokenStream create(TokenStream tokenStream) {
-                        return new STConvertTokenFilter(tokenStream,ConvertType.simple2traditional,",",false);
+                        return new STConvertTokenFilter(tokenStream, STConvertType.simple2traditional,",",false);
                     }
                 }));
 
@@ -128,7 +130,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public TokenStream create(TokenStream tokenStream) {
-                        return new STConvertTokenFilter(tokenStream,ConvertType.traditional2simple,",",false);
+                        return new STConvertTokenFilter(tokenStream, STConvertType.traditional2simple,",",false);
                     }
                 }));
 
@@ -141,7 +143,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public TokenStream create(TokenStream tokenStream) {
-                        return new STConvertTokenFilter(tokenStream,ConvertType.simple2traditional,",",true);
+                        return new STConvertTokenFilter(tokenStream, STConvertType.simple2traditional,",",true);
                     }
                 }));
 
@@ -154,7 +156,33 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public TokenStream create(TokenStream tokenStream) {
-                        return new STConvertTokenFilter(tokenStream,ConvertType.traditional2simple,",",true);
+                        return new STConvertTokenFilter(tokenStream, STConvertType.traditional2simple,",",true);
+                    }
+                }));
+
+        //char filter
+        indicesAnalysisService.charFilterFactories().put("stconvert",
+                new PreBuiltCharFilterFactoryFactory(new CharFilterFactory() {
+                    @Override
+                    public String name() {
+                        return "stconvert";
+                    }
+
+                    @Override
+                    public Reader create(Reader tokenStream) {
+                        return new STConvertCharFilter(tokenStream,STConvertType.simple2traditional);
+                    }
+                }));
+        indicesAnalysisService.charFilterFactories().put("tsconvert",
+                new PreBuiltCharFilterFactoryFactory(new CharFilterFactory() {
+                    @Override
+                    public String name() {
+                        return "tsconvert";
+                    }
+
+                    @Override
+                    public Reader create(Reader tokenStream) {
+                        return new STConvertCharFilter(tokenStream,STConvertType.traditional2simple);
                     }
                 }));
 

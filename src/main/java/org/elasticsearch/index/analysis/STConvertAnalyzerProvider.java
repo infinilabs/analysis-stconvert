@@ -24,6 +24,7 @@ import org.elasticsearch.index.settings.IndexSettings;
 
 /**
  */
+@Deprecated
 public class STConvertAnalyzerProvider extends AbstractIndexAnalyzerProvider<STConvertAnalyzer> {
 
     private final STConvertAnalyzer analyzer;

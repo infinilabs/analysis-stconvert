@@ -18,9 +18,10 @@ you can download this plugin from RTF project(https://github.com/medcl/elasticse
     | 1.1.0                        | 0.19.0 -> 0.20.x |
     --------------------------------------------------
 
-The plugin includes several analyzers: `stconvert`,`tsconvert`,`stconvert_keep_both`,`tsconvert_keep_both`,
- several tokenizers: `stconvert`,`tsconvert`,`stconvert_keep_both`,`tsconvert_keep_both`
- and several token-filters:  `stconvert`,`tsconvert`,`stconvert_keep_both`,`tsconvert_keep_both` .
+The plugin includes several analyzers: `stconvert`,`tsconvert`,`stconvert_keep_both`,`tsconvert_keep_both` ,
+ several tokenizers: `stconvert`,`tsconvert`,`stconvert_keep_both`,`tsconvert_keep_both` ,
+ and several token-filters:  `stconvert`,`tsconvert`,`stconvert_keep_both`,`tsconvert_keep_both` ,
+ and two char-filters: `stconvert`,`tsconvert`.
 
 Config:
 
@@ -61,6 +62,12 @@ Analyze tests
 
 ➜  ~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9b%bd%e9%99%85%e7%94%b5%e8%a7%86%e5%8f%b0%2c%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&analyzer\=stconvert
 {"tokens":[{"token":"北京國際電視檯","start_offset":0,"end_offset":7,"type":"word","position":0},{"token":"北京國際電視臺","start_offset":8,"end_offset":15,"type":"word","position":102}]}%                                                    
+
+➜  ~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9b%bd%e9%99%85%e7%94%b5%e8%a7%86%e5%8f%b0%2c%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&tokenizer\=keyword\&char_filters\=tsconvert
+{"tokens":[{"token":"北京国际电视台","start_offset":0,"end_offset":7,"type":"word","position":0},{"token":"北京国际电视台","start_offset":8,"end_offset":15,"type":"word","position":1}]}%                                                                                                                                                    
+
+➜  ~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9b%bd%e9%99%85%e7%94%b5%e8%a7%86%e5%8f%b0%2c%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&tokenizer\=keyword\&char_filters\=stconvert
+{"tokens":[{"token":"北京國際電視檯","start_offset":0,"end_offset":7,"type":"word","position":0},{"token":"北京國際電視臺","start_offset":8,"end_offset":15,"type":"word","position":1}]}%  
 
 ```
 

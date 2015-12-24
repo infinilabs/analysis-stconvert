@@ -1,6 +1,6 @@
 package org.elasticsearch.index.analysis;
 
-public enum ConvertType{
+public enum STConvertType {
     simple2traditional,
     traditional2simple,
 }

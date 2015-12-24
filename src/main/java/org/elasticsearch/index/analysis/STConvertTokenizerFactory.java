@@ -7,8 +7,6 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.Index;
 import org.elasticsearch.index.settings.IndexSettings;
 
-import java.io.Reader;
-
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -25,6 +23,7 @@ import java.io.Reader;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Deprecated
 public class STConvertTokenizerFactory extends AbstractTokenizerFactory {
 
    private String type="t2s";
@@ -44,9 +43,9 @@ public class STConvertTokenizerFactory extends AbstractTokenizerFactory {
 
     @Override
     public Tokenizer create() {
-        ConvertType convertType=ConvertType.traditional2simple;
+        STConvertType convertType= STConvertType.traditional2simple;
         if(type.equals("s2t")){
-            convertType = ConvertType.simple2traditional;
+            convertType = STConvertType.simple2traditional;
         }
 
         return new STConvertTokenizer(convertType, delimiter,keepBoth);
