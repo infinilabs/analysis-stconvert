@@ -53,9 +53,6 @@ public final class STConvertCharFilter extends BaseCharFilter {
     }
 
     CharSequence processPattern(CharSequence input) {
-        System.out.println("stconvert char filter step in");
-        String result = STConverter.getInstance().convert(convertType, input.toString());
-        System.out.println("stfilter: "+input.toString()+"->"+result);
-        return result;
+        return STConverter.getInstance().convert(convertType, input.toString());
     }
 }
