@@ -18,8 +18,6 @@ package org.elasticsearch.index.analysis;
 import org.apache.lucene.analysis.Analyzer;
 import org.elasticsearch.common.settings.Settings;
 
-import java.io.Reader;
-
 
 public final class STConvertAnalyzer extends Analyzer {
 
@@ -40,9 +38,9 @@ public final class STConvertAnalyzer extends Analyzer {
 
     @Override
     protected TokenStreamComponents createComponents(String fieldName) {
-        ConvertType convertType=ConvertType.traditional2simple;
+        STConvertType convertType= STConvertType.traditional2simple;
         if(type.equals("s2t")){
-            convertType = ConvertType.simple2traditional;
+            convertType = STConvertType.simple2traditional;
         }
         return  new TokenStreamComponents(new STConvertTokenizer(convertType, delimiter,keepBoth));
     }

@@ -1,5 +1,6 @@
 package org.elasticsearch.plugin.analysis.stconvert;
 
+import org.elasticsearch.analysis.STConvertIndicesAnalysisModule;
 import org.elasticsearch.common.inject.Module;
 import org.elasticsearch.index.analysis.AnalysisModule;
 import org.elasticsearch.index.analysis.STConvertAnalysisBinderProcessor;
@@ -23,12 +24,13 @@ public class AnalysisSTConvertPlugin extends Plugin {
     }
 
 
-//    @Override
-//    public Collection<Module> nodeModules() {
-////        return Collections.<Module>singletonList(new STConvertIndicesAnalysisModule());
-//    }
+    @Override
+    public Collection<Module> nodeModules() {
+        return Collections.<Module>singletonList(new STConvertIndicesAnalysisModule());
+    }
 
     public void onModule(AnalysisModule module) {
-        module.addProcessor(new STConvertAnalysisBinderProcessor());
+        //since nodeModules already registered all we need,and there is no index specified settings,ignore below
+//        module.addProcessor(new STConvertAnalysisBinderProcessor());
     }
 }

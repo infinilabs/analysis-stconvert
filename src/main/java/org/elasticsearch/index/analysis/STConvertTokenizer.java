@@ -31,10 +31,10 @@ public class STConvertTokenizer extends Tokenizer {
     private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
     private OffsetAttribute offsetAtt = addAttribute(OffsetAttribute.class);
     private String delimiter;
-    private ConvertType convertType;
+    private STConvertType convertType;
     private Boolean keepBoth;
 
-    public STConvertTokenizer( ConvertType convertType,String delimiter,Boolean keepBoth) {
+    public STConvertTokenizer( STConvertType convertType,String delimiter,Boolean keepBoth) {
         this(DEFAULT_BUFFER_SIZE);
         this.delimiter = delimiter;
         this.convertType = convertType;
@@ -63,7 +63,7 @@ public class STConvertTokenizer extends Tokenizer {
             termAtt.setLength(upto);
             String str = termAtt.toString();
             termAtt.setEmpty();
-            String converted= STConverter.convert(str, convertType);
+            String converted= STConverter.getInstance().convert(str, convertType);
             termAtt.append(converted);
 
             if(keepBoth){

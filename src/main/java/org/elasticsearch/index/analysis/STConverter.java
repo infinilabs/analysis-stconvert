@@ -43,6 +43,7 @@ public class STConverter {
         }
         initializeHelper();
     }
+
     private void initializeHelper() {
 
         Map stringPossibilities = new HashMap();
@@ -79,9 +80,9 @@ public class STConverter {
         }
     }
 
-    public String convert(ConvertType type,String in) {
+    public String convert(STConvertType type,String in) {
            Map map=charMap;
-        if(type==ConvertType.simple2traditional){
+        if(type== STConvertType.simple2traditional){
             map=revCharMap;
         }
 
@@ -110,11 +111,15 @@ public class STConverter {
         return target.toString();
     }
 
-    private  static STConverter instance=new STConverter();
-    public static String convert(String text, ConvertType converterType) {
+    private static STConverter instance=new STConverter();
 
+    public static STConverter getInstance(){
         if(instance==null){instance = new STConverter();}
-        return instance.convert(converterType,text);
+        return instance;
+    }
+
+    public String convert(String text, STConvertType converterType) {
+        return getInstance().convert(converterType,text);
     }
 
     private void mapping(Map map, StringBuilder outString, StringBuilder stackString) {
@@ -133,7 +138,3 @@ public class STConverter {
 
 }
 
-enum ConvertType{
-    simple2traditional,
-    traditional2simple,
-}

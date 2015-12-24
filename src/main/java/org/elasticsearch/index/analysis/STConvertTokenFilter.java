@@ -29,7 +29,7 @@ public class STConvertTokenFilter extends TokenFilter {
 
     private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
     private String delimiter=",";
-    private ConvertType convertType=ConvertType.simple2traditional;
+    private STConvertType convertType= STConvertType.simple2traditional;
     private Boolean keepBoth=false;
     @Override
     public final boolean incrementToken() throws IOException {
@@ -42,7 +42,7 @@ public class STConvertTokenFilter extends TokenFilter {
 
         String str = termAtt.toString();
         termAtt.setEmpty();
-        String converted= STConverter.convert(str, convertType);
+        String converted= STConverter.getInstance().convert(str, convertType);
         if(!converted.isEmpty())
         {
             stringBuilder.append(converted);
@@ -62,7 +62,7 @@ public class STConvertTokenFilter extends TokenFilter {
         return true;
     }
 
-    public STConvertTokenFilter(TokenStream in, ConvertType convertType,String delimiter,Boolean keepBoth) {
+    public STConvertTokenFilter(TokenStream in, STConvertType convertType,String delimiter,Boolean keepBoth) {
         super(in);
         this.delimiter = delimiter;
         this.convertType = convertType;
@@ -72,14 +72,11 @@ public class STConvertTokenFilter extends TokenFilter {
 
     @Override
     public final void end() throws IOException {
-        System.out.println("end");
         super.end();
     }
 
     @Override
     public void reset() throws IOException {
-        System.out.println("reset");
-
         super.reset();
     }
 
