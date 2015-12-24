@@ -34,15 +34,15 @@ public class STConvertTokenizer extends Tokenizer {
     private ConvertType convertType;
     private Boolean keepBoth;
 
-    public STConvertTokenizer(Reader reader, ConvertType convertType,String delimiter,Boolean keepBoth) {
-        this(reader, DEFAULT_BUFFER_SIZE);
+    public STConvertTokenizer( ConvertType convertType,String delimiter,Boolean keepBoth) {
+        this(DEFAULT_BUFFER_SIZE);
         this.delimiter = delimiter;
         this.convertType = convertType;
         this.keepBoth=keepBoth;
     }
 
-    public STConvertTokenizer(Reader input, int bufferSize) {
-        super(input);
+    public STConvertTokenizer(int bufferSize) {
+        super();
         termAtt.resizeBuffer(bufferSize);
     }
 

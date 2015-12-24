@@ -24,9 +24,9 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.KeywordAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.util.Version;
 import org.elasticsearch.common.inject.Injector;
 import org.elasticsearch.common.inject.ModulesBuilder;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.settings.SettingsModule;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.env.EnvironmentModule;
@@ -42,7 +42,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.elasticsearch.common.settings.ImmutableSettings.Builder.EMPTY_SETTINGS;
 import static org.hamcrest.Matchers.instanceOf;
 
 /**
@@ -53,11 +52,18 @@ public class STConvertAnalysisTests {
     public void testAnalysis() {
         Index index = new Index("test");
 
-        Injector parentInjector = new ModulesBuilder().add(new SettingsModule(EMPTY_SETTINGS), new EnvironmentModule(new Environment(EMPTY_SETTINGS))).createInjector();
+        Injector parentInjector = new ModulesBuilder()
+                .add(new SettingsModule(Settings.builder()
+                                .put("http.enabled", false).build()
+                        ),
+                        new EnvironmentModule(new Environment(Settings.builder()
+                                .put("path.home", "/").build())))
+                .createInjector();
         Injector injector = new ModulesBuilder().add(
-                new IndexSettingsModule(index, EMPTY_SETTINGS),
+                new IndexSettingsModule(index, Settings.builder()
+                        .put("index.version.created", 1).build()),
                 new IndexNameModule(index),
-                new AnalysisModule(EMPTY_SETTINGS, parentInjector.getInstance(IndicesAnalysisService.class)).addProcessor(new STConvertAnalysisBinderProcessor()))
+                new AnalysisModule(Settings.EMPTY, parentInjector.getInstance(IndicesAnalysisService.class)).addProcessor(new STConvertAnalysisBinderProcessor()))
                 .createChildInjector(parentInjector);
 
         AnalysisService analysisService = injector.getInstance(AnalysisService.class);
@@ -66,67 +72,66 @@ public class STConvertAnalysisTests {
         MatcherAssert.assertThat(tokenizerFactory, instanceOf(STConvertTokenizerFactory.class));
 
         TokenFilterFactory tokenFilterFactory = analysisService.tokenFilter("stconvert");
-        MatcherAssert.assertThat(tokenFilterFactory,instanceOf(STConvertTokenFilterFactory.class));
+        MatcherAssert.assertThat(tokenFilterFactory, instanceOf(STConvertTokenFilterFactory.class));
 
     }
 
-//    @Test
-    public void testTokenFilter() throws IOException{
+    @Test
+    public void testTokenFilter() throws IOException {
         StringReader sr = new StringReader("刘德华");
-        Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_41);
-        STConvertTokenFilter filter = new STConvertTokenFilter(analyzer.tokenStream("f",sr),ConvertType.simple2traditional,",",true);
-        List<String>  list= new ArrayList<String>();
+        Analyzer analyzer = new StandardAnalyzer();
+        STConvertTokenFilter filter = new STConvertTokenFilter(analyzer.tokenStream("f", sr), ConvertType.simple2traditional, ",", true);
+        List<String> list = new ArrayList<String>();
         filter.reset();
-        while (filter.incrementToken())
-        {
+        while (filter.incrementToken()) {
             CharTermAttribute ta = filter.getAttribute(CharTermAttribute.class);
             list.add(ta.toString());
             System.out.println(ta.toString());
         }
         Assert.assertEquals(3, list.size());
-        Assert.assertEquals("劉,刘",list.get(0));
+        Assert.assertEquals("劉,刘", list.get(0));
         Assert.assertEquals("德,德", list.get(1));
-        Assert.assertEquals("華,华",list.get(2));
+        Assert.assertEquals("華,华", list.get(2));
 
         sr = new StringReader("刘德华");
         analyzer = new KeywordAnalyzer();
-        filter = new STConvertTokenFilter(analyzer.tokenStream("f",sr),ConvertType.simple2traditional,",",false);
+        filter = new STConvertTokenFilter(analyzer.tokenStream("f", sr), ConvertType.simple2traditional, ",", false);
         list.clear();
-        while (filter.incrementToken())
-        {
+        filter.reset();
+        while (filter.incrementToken()) {
             CharTermAttribute ta = filter.getAttribute(CharTermAttribute.class);
             list.add(ta.toString());
             System.out.println(ta.toString());
         }
-        Assert.assertEquals(1,list.size());
-        Assert.assertEquals("劉德華",list.get(0));
+        Assert.assertEquals(1, list.size());
+        Assert.assertEquals("劉德華", list.get(0));
     }
 
-//    @Test
+    @Test
     public void TestTokenizer() throws IOException {
         String[] s = {"刘德华", "劉德華"};
-        List<String>  list= new ArrayList<String>();
+        List<String> list = new ArrayList<String>();
 
         for (String value : s) {
             System.out.println(value);
             StringReader sr = new StringReader(value);
 
-            STConvertTokenizer tokenizer = new STConvertTokenizer(sr,ConvertType.traditional2simple,",",true);
-
+            STConvertTokenizer tokenizer = new STConvertTokenizer(ConvertType.traditional2simple, ",", true);
+            tokenizer.setReader(sr);
+            tokenizer.reset();
 
             boolean hasnext = tokenizer.incrementToken();
-            tokenizer.reset();
             while (hasnext) {
 
                 CharTermAttribute ta = tokenizer.getAttribute(CharTermAttribute.class);
 
                 System.out.println(ta.toString());
-                list.add(ta.toString()) ;
+                list.add(ta.toString());
                 hasnext = tokenizer.incrementToken();
 
             }
         }
         Assert.assertEquals("刘德华,刘德华", list.get(0));
-        Assert.assertEquals("刘德华,劉德華",list.get(1));
+        Assert.assertEquals("刘德华,劉德華", list.get(1));
     }
 }

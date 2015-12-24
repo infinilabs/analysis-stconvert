@@ -68,4 +68,19 @@ public class STConvertTokenFilter extends TokenFilter {
         this.convertType = convertType;
         this.keepBoth=keepBoth;
     }
+
+
+    @Override
+    public final void end() throws IOException {
+        System.out.println("end");
+        super.end();
+    }
+
+    @Override
+    public void reset() throws IOException {
+        System.out.println("reset");
+
+        super.reset();
+    }
+
 }

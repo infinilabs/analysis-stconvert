@@ -43,13 +43,13 @@ public class STConvertTokenizerFactory extends AbstractTokenizerFactory {
     }
 
     @Override
-    public Tokenizer create(Reader reader) {
+    public Tokenizer create() {
         ConvertType convertType=ConvertType.traditional2simple;
         if(type.equals("s2t")){
             convertType = ConvertType.simple2traditional;
         }
 
-        return new STConvertTokenizer(reader,convertType, delimiter,keepBoth);
+        return new STConvertTokenizer(convertType, delimiter,keepBoth);
     }
 }
 
