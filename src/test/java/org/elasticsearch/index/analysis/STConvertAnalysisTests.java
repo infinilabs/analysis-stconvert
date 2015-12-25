@@ -24,6 +24,8 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.KeywordAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
+import org.elasticsearch.Version;
+import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.inject.Injector;
 import org.elasticsearch.common.inject.ModulesBuilder;
 import org.elasticsearch.common.settings.Settings;
@@ -42,6 +44,8 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.elasticsearch.common.settings.Settings.Builder.EMPTY_SETTINGS;
+import static org.elasticsearch.common.settings.Settings.settingsBuilder;
 import static org.hamcrest.Matchers.instanceOf;
 
 /**
@@ -50,18 +54,15 @@ public class STConvertAnalysisTests {
 
     @Test
     public void testAnalysis() {
-        Index index = new Index("test");
 
-        Injector parentInjector = new ModulesBuilder()
-                .add(new SettingsModule(Settings.builder()
-                                .put("http.enabled", false).build()
-                        ),
-                        new EnvironmentModule(new Environment(Settings.builder()
-                                .put("path.home", "/").build())))
-                .createInjector();
+        Index index = new Index("test");
+        Settings settings = settingsBuilder()
+                .put("path.home", "/")
+                .put(IndexMetaData.SETTING_VERSION_CREATED, Version.CURRENT)
+                .build();
+        Injector parentInjector = new ModulesBuilder().add(new SettingsModule(Settings.builder().put("index.version.created",1).build()), new EnvironmentModule(new Environment(settings))).createInjector();
         Injector injector = new ModulesBuilder().add(
-                new IndexSettingsModule(index, Settings.builder()
-                        .put("index.version.created", 1).build()),
+                new IndexSettingsModule(index, settings),
                 new IndexNameModule(index),
                 new AnalysisModule(Settings.EMPTY, parentInjector.getInstance(IndicesAnalysisService.class)).addProcessor(new STConvertAnalysisBinderProcessor()))
                 .createChildInjector(parentInjector);

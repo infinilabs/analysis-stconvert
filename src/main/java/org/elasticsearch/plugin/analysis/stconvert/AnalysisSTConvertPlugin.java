@@ -30,7 +30,6 @@ public class AnalysisSTConvertPlugin extends Plugin {
     }
 
     public void onModule(AnalysisModule module) {
-        //since nodeModules already registered all we need,and there is no index specified settings,ignore below
-//        module.addProcessor(new STConvertAnalysisBinderProcessor());
+        module.addProcessor(new STConvertAnalysisBinderProcessor());
     }
 }
