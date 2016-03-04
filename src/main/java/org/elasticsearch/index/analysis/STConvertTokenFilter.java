@@ -31,6 +31,14 @@ public class STConvertTokenFilter extends TokenFilter {
     private String delimiter=",";
     private STConvertType convertType= STConvertType.simple2traditional;
     private Boolean keepBoth=false;
+    
+    public STConvertTokenFilter(TokenStream in, STConvertType convertType,String delimiter,Boolean keepBoth) {
+        super(in);
+        this.delimiter = delimiter;
+        this.convertType = convertType;
+        this.keepBoth=keepBoth;
+    }
+    
     @Override
     public final boolean incrementToken() throws IOException {
 
@@ -61,14 +69,6 @@ public class STConvertTokenFilter extends TokenFilter {
         termAtt.setLength(stringBuilder.length());
         return true;
     }
-
-    public STConvertTokenFilter(TokenStream in, STConvertType convertType,String delimiter,Boolean keepBoth) {
-        super(in);
-        this.delimiter = delimiter;
-        this.convertType = convertType;
-        this.keepBoth=keepBoth;
-    }
-
 
     @Override
     public final void end() throws IOException {
