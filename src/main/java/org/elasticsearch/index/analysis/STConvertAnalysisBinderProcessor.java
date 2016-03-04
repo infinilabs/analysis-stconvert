@@ -35,6 +35,7 @@
 package org.elasticsearch.index.analysis;
 
 /**
+ * @deprecated
  */
 @Deprecated
 public class STConvertAnalysisBinderProcessor extends AnalysisModule.AnalysisBinderProcessor {

@@ -22,6 +22,7 @@ import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.Index;
 
 /**
+ * @deprecated
  */
 @Deprecated
 public class STConvertAnalyzerProvider extends AbstractIndexAnalyzerProvider<STConvertAnalyzer> {
