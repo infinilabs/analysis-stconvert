@@ -2,11 +2,16 @@ package org.elasticsearch.index.analysis;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  * some parts of code copied from:http://code.google.com/p/java-zhconverter/
  */
 public class STConverter {
+    
+    private static final Logger LOGGER = Logger.getLogger(STConverter.class.getName());
 
     private Properties charMap = new Properties();
     private Properties revCharMap = new Properties();
@@ -21,7 +26,7 @@ public class STConverter {
         try {
             is = new InputStreamReader(file1, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Unsupported character encoding " + e.getMessage(), e);
         }
         if (is != null) {
             BufferedReader reader = null;
@@ -30,7 +35,7 @@ public class STConverter {
                 charMap.load(reader);
             } catch (FileNotFoundException e) {
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "IOException in loading charMap: " + e.getMessage(), e);
             } finally {
                 try {
                     if (reader != null)
@@ -60,8 +65,7 @@ public class STConverter {
                     String keySubstring = key.substring(0, i + 1);
                     if (stringPossibilities.containsKey(keySubstring)) {
                         Integer integer = (Integer)(stringPossibilities.get(keySubstring));
-                        stringPossibilities.put(keySubstring, new Integer(
-                                integer.intValue() + 1));
+                        stringPossibilities.put(keySubstring, new Integer(Integer.valueOf(integer) + 1));
 
                     } else {
                         stringPossibilities.put(keySubstring, new Integer(1));
@@ -74,7 +78,8 @@ public class STConverter {
         iter = stringPossibilities.keySet().iterator();
         while (iter.hasNext()) {
             String key = (String) iter.next();
-            if (((Integer)(stringPossibilities.get(key))).intValue() > 1) {
+            int value = Integer.valueOf( (Integer)stringPossibilities.get(key) );
+            if (value > 1) {
                 conflictingSets.add(key);
             }
         }
@@ -122,7 +127,7 @@ public class STConverter {
         return getInstance().convert(converterType,text);
     }
 
-    private void mapping(Map map, StringBuilder outString, StringBuilder stackString) {
+    private static void mapping(Map map, StringBuilder outString, StringBuilder stackString) {
         while (stackString.length() > 0){
             if (map.containsKey(stackString.toString())) {
                 outString.append(map.get(stackString.toString()));
