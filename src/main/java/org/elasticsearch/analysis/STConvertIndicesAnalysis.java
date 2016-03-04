@@ -64,7 +64,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public Tokenizer create() {
-                        return new STConvertTokenizer(STConvertType.simple2traditional,",",false);
+                        return new STConvertTokenizer(STConvertType.SIMPLE_2_TRADITIONAL,",",false);
                     }
                 }));
 
@@ -77,7 +77,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public Tokenizer create() {
-                        return new STConvertTokenizer(STConvertType.traditional2simple,",",false);
+                        return new STConvertTokenizer(STConvertType.TRADITIONAL_2_SIMPLE,",",false);
                     }
                 }));
         indicesAnalysisService.tokenizerFactories().put("stconvert_keep_both",
@@ -89,7 +89,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public Tokenizer create() {
-                        return new STConvertTokenizer(STConvertType.simple2traditional,",",true);
+                        return new STConvertTokenizer(STConvertType.SIMPLE_2_TRADITIONAL,",",true);
                     }
                 }));
         indicesAnalysisService.tokenizerFactories().put("tsconvert_keep_both",
@@ -101,7 +101,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public Tokenizer create() {
-                        return new STConvertTokenizer(STConvertType.traditional2simple,",",true);
+                        return new STConvertTokenizer(STConvertType.TRADITIONAL_2_SIMPLE,",",true);
                     }
                 }));
 
@@ -117,7 +117,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public TokenStream create(TokenStream tokenStream) {
-                        return new STConvertTokenFilter(tokenStream, STConvertType.simple2traditional,",",false);
+                        return new STConvertTokenFilter(tokenStream, STConvertType.SIMPLE_2_TRADITIONAL,",",false);
                     }
                 }));
 
@@ -130,7 +130,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public TokenStream create(TokenStream tokenStream) {
-                        return new STConvertTokenFilter(tokenStream, STConvertType.traditional2simple,",",false);
+                        return new STConvertTokenFilter(tokenStream, STConvertType.TRADITIONAL_2_SIMPLE,",",false);
                     }
                 }));
 
@@ -143,7 +143,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public TokenStream create(TokenStream tokenStream) {
-                        return new STConvertTokenFilter(tokenStream, STConvertType.simple2traditional,",",true);
+                        return new STConvertTokenFilter(tokenStream, STConvertType.SIMPLE_2_TRADITIONAL,",",true);
                     }
                 }));
 
@@ -156,7 +156,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public TokenStream create(TokenStream tokenStream) {
-                        return new STConvertTokenFilter(tokenStream, STConvertType.traditional2simple,",",true);
+                        return new STConvertTokenFilter(tokenStream, STConvertType.TRADITIONAL_2_SIMPLE,",",true);
                     }
                 }));
 
@@ -170,7 +170,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public Reader create(Reader tokenStream) {
-                        return new STConvertCharFilter(tokenStream,STConvertType.simple2traditional);
+                        return new STConvertCharFilter(tokenStream,STConvertType.SIMPLE_2_TRADITIONAL);
                     }
                 }));
         indicesAnalysisService.charFilterFactories().put("tsconvert",
@@ -182,7 +182,7 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
                     @Override
                     public Reader create(Reader tokenStream) {
-                        return new STConvertCharFilter(tokenStream,STConvertType.traditional2simple);
+                        return new STConvertCharFilter(tokenStream,STConvertType.TRADITIONAL_2_SIMPLE);
                     }
                 }));
 

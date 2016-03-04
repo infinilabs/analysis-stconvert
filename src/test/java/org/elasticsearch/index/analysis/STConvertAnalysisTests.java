@@ -81,7 +81,7 @@ public class STConvertAnalysisTests {
     public void testTokenFilter() throws IOException {
         StringReader sr = new StringReader("刘德华");
         Analyzer analyzer = new StandardAnalyzer();
-        STConvertTokenFilter filter = new STConvertTokenFilter(analyzer.tokenStream("f", sr), STConvertType.simple2traditional, ",", true);
+        STConvertTokenFilter filter = new STConvertTokenFilter(analyzer.tokenStream("f", sr), STConvertType.SIMPLE_2_TRADITIONAL, ",", true);
         List<String> list = new ArrayList<String>();
         filter.reset();
         while (filter.incrementToken()) {
@@ -96,7 +96,7 @@ public class STConvertAnalysisTests {
 
         sr = new StringReader("刘德华");
         analyzer = new KeywordAnalyzer();
-        filter = new STConvertTokenFilter(analyzer.tokenStream("f", sr), STConvertType.simple2traditional, ",", false);
+        filter = new STConvertTokenFilter(analyzer.tokenStream("f", sr), STConvertType.SIMPLE_2_TRADITIONAL, ",", false);
         list.clear();
         filter.reset();
         while (filter.incrementToken()) {
@@ -117,7 +117,7 @@ public class STConvertAnalysisTests {
             System.out.println(value);
             StringReader sr = new StringReader(value);
 
-            STConvertTokenizer tokenizer = new STConvertTokenizer(STConvertType.traditional2simple, ",", true);
+            STConvertTokenizer tokenizer = new STConvertTokenizer(STConvertType.TRADITIONAL_2_SIMPLE, ",", true);
             tokenizer.setReader(sr);
             tokenizer.reset();
 

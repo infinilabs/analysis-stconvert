@@ -82,7 +82,7 @@ public class STConverter {
 
     public String convert(STConvertType type,String in) {
            Map map=charMap;
-        if(type== STConvertType.simple2traditional){
+        if(type== STConvertType.SIMPLE_2_TRADITIONAL){
             map=revCharMap;
         }
 

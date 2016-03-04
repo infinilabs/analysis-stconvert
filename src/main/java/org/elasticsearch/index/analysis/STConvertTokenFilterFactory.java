@@ -37,9 +37,9 @@ public class STConvertTokenFilterFactory extends AbstractTokenFilterFactory {
     }
 
     @Override public TokenStream create(TokenStream tokenStream) {
-        STConvertType convertType= STConvertType.traditional2simple;
+        STConvertType convertType= STConvertType.TRADITIONAL_2_SIMPLE;
         if(type.equals("s2t")){
-            convertType = STConvertType.simple2traditional;
+            convertType = STConvertType.SIMPLE_2_TRADITIONAL;
         }
         return new STConvertTokenFilter(tokenStream,convertType,delimiter,keepBoth);
     }
