@@ -29,7 +29,7 @@ public class STConvertTokenFilter extends TokenFilter {
 
     private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
     private String delimiter=",";
-    private STConvertType convertType= STConvertType.simple2traditional;
+    private STConvertType convertType= STConvertType.SIMPLE_2_TRADITIONAL;
     private Boolean keepBoth=false;
     @Override
     public final boolean incrementToken() throws IOException {

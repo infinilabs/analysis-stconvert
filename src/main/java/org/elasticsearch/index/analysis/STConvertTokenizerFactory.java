@@ -42,9 +42,9 @@ public class STConvertTokenizerFactory extends AbstractTokenizerFactory {
 
     @Override
     public Tokenizer create() {
-        STConvertType convertType= STConvertType.traditional2simple;
+        STConvertType convertType= STConvertType.TRADITIONAL_2_SIMPLE;
         if(type.equals("s2t")){
-            convertType = STConvertType.simple2traditional;
+            convertType = STConvertType.SIMPLE_2_TRADITIONAL;
         }
 
         return new STConvertTokenizer(convertType, delimiter,keepBoth);

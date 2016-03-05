@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 public final class STConvertCharFilter extends BaseCharFilter {
 
-    private STConvertType convertType=STConvertType.traditional2simple;
+    private STConvertType convertType=STConvertType.TRADITIONAL_2_SIMPLE;
     private Reader transformedInput;
     public STConvertCharFilter(Reader in,STConvertType convertType) {
         super(in);

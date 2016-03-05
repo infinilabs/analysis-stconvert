@@ -12,8 +12,8 @@ public class STConverterTest extends TestCase {
     public void testConvert() throws Exception {
 
         STConverter stConverter=new STConverter();
-        String str= stConverter.convert(STConvertType.traditional2simple,"先禮後兵");
-        String str1= stConverter.convert(STConvertType.simple2traditional,"非诚勿扰");
+        String str= stConverter.convert(STConvertType.TRADITIONAL_2_SIMPLE,"先禮後兵");
+        String str1= stConverter.convert(STConvertType.SIMPLE_2_TRADITIONAL,"非诚勿扰");
         System.out.printf(str);
         System.out.println();
         System.out.printf(str1);
