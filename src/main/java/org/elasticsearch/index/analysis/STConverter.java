@@ -11,7 +11,8 @@ public class STConverter {
     private Properties charMap = new Properties();
     private Properties revCharMap = new Properties();
     private Set conflictingSets  = new HashSet();
-
+    private static STConverter instance=new STConverter();
+    
     public STConverter(){
 
 
@@ -35,8 +36,7 @@ public class STConverter {
                 try {
                     if (reader != null)
                         reader.close();
-                    if (is != null)
-                        is.close();
+                    is.close();
                 } catch (IOException e) {
                 }
             }
@@ -92,7 +92,7 @@ public class STConverter {
         for (int i = 0; i < in.length(); i++) {
 
             char c = in.charAt(i);
-            String key = "" + c;
+            String key = Character.toString(c);
             source.append(key);
 
             if (conflictingSets.contains(source.toString())) {
@@ -111,8 +111,6 @@ public class STConverter {
         return target.toString();
     }
 
-    private static STConverter instance=new STConverter();
-
     public static STConverter getInstance(){
         if(instance==null){instance = new STConverter();}
         return instance;
@@ -129,7 +127,7 @@ public class STConverter {
                 stackString.setLength(0);
 
             } else {
-                outString.append("" + stackString.charAt(0));
+                outString.append(Character.toString( stackString.charAt(0)) );
                 stackString.delete(0, 1);
             }
 
