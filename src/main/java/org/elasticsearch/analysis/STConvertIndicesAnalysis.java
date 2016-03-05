@@ -17,6 +17,13 @@ import java.io.Reader;
  * will be shared among all indices.
  */
 public class STConvertIndicesAnalysis extends AbstractComponent {
+    
+    private static final String STCONVERT = "stconvert";
+    private static final String CONVERT_TYPE = "convert_type";
+    private static final String KEEP_BOTH = "keep_both";
+    private static final String TSCONVERT = "tsconvert";
+    private static final String STCONVERT_KEEP_BOTH = "stconvert_keep_both";
+    private static final String TSCONVERT_KEEP_BOTH = "tsconvert_keep_both";
 
     @Inject
     public STConvertIndicesAnalysis(final Settings settings,
@@ -24,42 +31,42 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
         super(settings);
 
         //analyzers
-        indicesAnalysisService.analyzerProviderFactories().put("stconvert",
-                new PreBuiltAnalyzerProviderFactory("stconvert", AnalyzerScope.GLOBAL,
+        indicesAnalysisService.analyzerProviderFactories().put(STCONVERT,
+                new PreBuiltAnalyzerProviderFactory(STCONVERT, AnalyzerScope.GLOBAL,
                         new STConvertAnalyzer(Settings.builder()
-                                .put("convert_type", "s2t")
-                                .put("keep_both", false)
+                                .put(CONVERT_TYPE, "s2t")
+                                .put(KEEP_BOTH, false)
                                 .build())));
 
-        indicesAnalysisService.analyzerProviderFactories().put("tsconvert",
-                new PreBuiltAnalyzerProviderFactory("tsconvert", AnalyzerScope.GLOBAL,
+        indicesAnalysisService.analyzerProviderFactories().put(TSCONVERT,
+                new PreBuiltAnalyzerProviderFactory(TSCONVERT, AnalyzerScope.GLOBAL,
                         new STConvertAnalyzer(Settings.builder()
-                                .put("convert_type", "t2s")
-                                .put("keep_both", false)
+                                .put(CONVERT_TYPE, "t2s")
+                                .put(KEEP_BOTH, false)
                                 .build())));
 
-        indicesAnalysisService.analyzerProviderFactories().put("stconvert_keep_both",
-                new PreBuiltAnalyzerProviderFactory("stconvert_keep_both", AnalyzerScope.GLOBAL,
+        indicesAnalysisService.analyzerProviderFactories().put(STCONVERT_KEEP_BOTH,
+                new PreBuiltAnalyzerProviderFactory(STCONVERT_KEEP_BOTH, AnalyzerScope.GLOBAL,
                         new STConvertAnalyzer(Settings.builder()
-                                .put("convert_type", "s2t")
-                                .put("keep_both",true)
+                                .put(CONVERT_TYPE, "s2t")
+                                .put(KEEP_BOTH,true)
                                 .build())));
 
-        indicesAnalysisService.analyzerProviderFactories().put("tsconvert_keep_both",
-                new PreBuiltAnalyzerProviderFactory("tsconvert_keep_both", AnalyzerScope.GLOBAL,
+        indicesAnalysisService.analyzerProviderFactories().put(TSCONVERT_KEEP_BOTH,
+                new PreBuiltAnalyzerProviderFactory(TSCONVERT_KEEP_BOTH, AnalyzerScope.GLOBAL,
                         new STConvertAnalyzer(Settings.builder()
-                                .put("convert_type", "t2s")
-                                .put("keep_both", true)
+                                .put(CONVERT_TYPE, "t2s")
+                                .put(KEEP_BOTH, true)
                                 .build())));
 
 
         //tokenizers
 
-        indicesAnalysisService.tokenizerFactories().put("stconvert",
+        indicesAnalysisService.tokenizerFactories().put(STCONVERT,
                 new PreBuiltTokenizerFactoryFactory(new TokenizerFactory() {
                     @Override
                     public String name() {
-                        return "stconvert";
+                        return STCONVERT;
                     }
 
                     @Override
@@ -68,11 +75,11 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
                     }
                 }));
 
-        indicesAnalysisService.tokenizerFactories().put("tsconvert",
+        indicesAnalysisService.tokenizerFactories().put(TSCONVERT,
                 new PreBuiltTokenizerFactoryFactory(new TokenizerFactory() {
                     @Override
                     public String name() {
-                        return "tsconvert";
+                        return TSCONVERT;
                     }
 
                     @Override
@@ -80,11 +87,11 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
                         return new STConvertTokenizer(STConvertType.TRADITIONAL_2_SIMPLE,",",false);
                     }
                 }));
-        indicesAnalysisService.tokenizerFactories().put("stconvert_keep_both",
+        indicesAnalysisService.tokenizerFactories().put(STCONVERT_KEEP_BOTH,
                 new PreBuiltTokenizerFactoryFactory(new TokenizerFactory() {
                     @Override
                     public String name() {
-                        return "stconvert_keep_both";
+                        return STCONVERT_KEEP_BOTH;
                     }
 
                     @Override
@@ -92,11 +99,11 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
                         return new STConvertTokenizer(STConvertType.SIMPLE_2_TRADITIONAL,",",true);
                     }
                 }));
-        indicesAnalysisService.tokenizerFactories().put("tsconvert_keep_both",
+        indicesAnalysisService.tokenizerFactories().put(TSCONVERT_KEEP_BOTH,
                 new PreBuiltTokenizerFactoryFactory(new TokenizerFactory() {
                     @Override
                     public String name() {
-                        return "tsconvert_keep_both";
+                        return TSCONVERT_KEEP_BOTH;
                     }
 
                     @Override
@@ -108,11 +115,11 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
 
 
         //tokenFilters
-        indicesAnalysisService.tokenFilterFactories().put("stconvert",
+        indicesAnalysisService.tokenFilterFactories().put(STCONVERT,
                 new PreBuiltTokenFilterFactoryFactory(new TokenFilterFactory() {
                     @Override
                     public String name() {
-                        return "stconvert";
+                        return STCONVERT;
                     }
 
                     @Override
@@ -121,11 +128,11 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
                     }
                 }));
 
-        indicesAnalysisService.tokenFilterFactories().put("tsconvert",
+        indicesAnalysisService.tokenFilterFactories().put(TSCONVERT,
                 new PreBuiltTokenFilterFactoryFactory(new TokenFilterFactory() {
                     @Override
                     public String name() {
-                        return "tsconvert";
+                        return TSCONVERT;
                     }
 
                     @Override
@@ -134,11 +141,11 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
                     }
                 }));
 
-        indicesAnalysisService.tokenFilterFactories().put("stconvert_keep_both",
+        indicesAnalysisService.tokenFilterFactories().put(STCONVERT_KEEP_BOTH,
                 new PreBuiltTokenFilterFactoryFactory(new TokenFilterFactory() {
                     @Override
                     public String name() {
-                        return "stconvert_keep_both";
+                        return STCONVERT_KEEP_BOTH;
                     }
 
                     @Override
@@ -147,11 +154,11 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
                     }
                 }));
 
-        indicesAnalysisService.tokenFilterFactories().put("tsconvert_keep_both",
+        indicesAnalysisService.tokenFilterFactories().put(TSCONVERT_KEEP_BOTH,
                 new PreBuiltTokenFilterFactoryFactory(new TokenFilterFactory() {
                     @Override
                     public String name() {
-                        return "tsconvert_keep_both";
+                        return TSCONVERT_KEEP_BOTH;
                     }
 
                     @Override
@@ -161,11 +168,11 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
                 }));
 
         //char filter
-        indicesAnalysisService.charFilterFactories().put("stconvert",
+        indicesAnalysisService.charFilterFactories().put(STCONVERT,
                 new PreBuiltCharFilterFactoryFactory(new CharFilterFactory() {
                     @Override
                     public String name() {
-                        return "stconvert";
+                        return STCONVERT;
                     }
 
                     @Override
@@ -173,11 +180,11 @@ public class STConvertIndicesAnalysis extends AbstractComponent {
                         return new STConvertCharFilter(tokenStream,STConvertType.SIMPLE_2_TRADITIONAL);
                     }
                 }));
-        indicesAnalysisService.charFilterFactories().put("tsconvert",
+        indicesAnalysisService.charFilterFactories().put(TSCONVERT,
                 new PreBuiltCharFilterFactoryFactory(new CharFilterFactory() {
                     @Override
                     public String name() {
-                        return "tsconvert";
+                        return TSCONVERT;
                     }
 
                     @Override
