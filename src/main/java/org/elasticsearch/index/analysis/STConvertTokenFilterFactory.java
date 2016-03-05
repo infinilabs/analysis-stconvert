@@ -21,6 +21,9 @@ import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.assistedinject.Assisted;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.Index;
+/**
+ * @deprecated
+ */
 @Deprecated
 public class STConvertTokenFilterFactory extends AbstractTokenFilterFactory {
     private String delimiter=",";
