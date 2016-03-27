@@ -22,6 +22,10 @@ import org.elasticsearch.index.Index;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * @deprecated
+ */
 @Deprecated
 public class STConvertTokenizerFactory extends AbstractTokenizerFactory {
 
@@ -42,9 +46,9 @@ public class STConvertTokenizerFactory extends AbstractTokenizerFactory {
 
     @Override
     public Tokenizer create() {
-        STConvertType convertType= STConvertType.traditional2simple;
+        STConvertType convertType= STConvertType.TRADITIONAL_2_SIMPLE;
         if(type.equals("s2t")){
-            convertType = STConvertType.simple2traditional;
+            convertType = STConvertType.SIMPLE_2_TRADITIONAL;
         }
 
         return new STConvertTokenizer(convertType, delimiter,keepBoth);

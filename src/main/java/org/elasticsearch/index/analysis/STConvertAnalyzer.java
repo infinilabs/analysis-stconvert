@@ -38,9 +38,9 @@ public final class STConvertAnalyzer extends Analyzer {
 
     @Override
     protected TokenStreamComponents createComponents(String fieldName) {
-        STConvertType convertType= STConvertType.traditional2simple;
+        STConvertType convertType= STConvertType.TRADITIONAL_2_SIMPLE;
         if(type.equals("s2t")){
-            convertType = STConvertType.simple2traditional;
+            convertType = STConvertType.SIMPLE_2_TRADITIONAL;
         }
         return  new TokenStreamComponents(new STConvertTokenizer(convertType, delimiter,keepBoth));
     }
