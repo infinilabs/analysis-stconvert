@@ -1,4 +1,4 @@
-STConvert Analysis for ElasticSearch
+STConvert Analysis for Elasticsearch
 ==================================
 
 STConvert is analyzer that convert chinese characters between traditional and simplified.
@@ -9,7 +9,9 @@ you can download this plugin from RTF project(https://github.com/medcl/elasticse
     --------------------------------------------------
     | STConvert  Analysis Plugin    | ElasticSearch   |
     --------------------------------------------------
-    | 1.7.0                        | 2.2.0  -> master |
+    | 1.7.1                        | 2.2.1            |
+    --------------------------------------------------
+    | 1.7.0                        | 2.2.0            |
     --------------------------------------------------
     | 1.6.0                        | 2.1.0  -> 2.1.x  |
     --------------------------------------------------      
@@ -83,7 +85,7 @@ elasticsearch.yml
 
 index:
   analysis:
-  
+
     tokenizer:
       s2t_convert:
         type: stconvert
