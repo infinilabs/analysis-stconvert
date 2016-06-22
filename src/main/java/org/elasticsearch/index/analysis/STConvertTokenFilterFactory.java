@@ -21,6 +21,8 @@ import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.inject.assistedinject.Assisted;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.Index;
+import org.elasticsearch.index.settings.IndexSettingsService;
+
 /**
  * @deprecated
  */
@@ -29,8 +31,8 @@ public class STConvertTokenFilterFactory extends AbstractTokenFilterFactory {
     private String delimiter=",";
     private String type="t2s";
     private Boolean keepBoth=false;
-    @Inject public STConvertTokenFilterFactory(Index index, Settings indexSettings, @Assisted String name, @Assisted Settings settings) {
-        super(index, indexSettings, name, settings);
+    @Inject public STConvertTokenFilterFactory(Index index, IndexSettingsService indexSettingsService, @Assisted String name, @Assisted Settings settings) {
+        super(index, indexSettingsService.getSettings(), name, settings);
         type = settings.get("convert_type", "t2s");
         delimiter = settings.get("delimiter", ",");
         String keepBothStr = settings.get("keep_both", "false");
