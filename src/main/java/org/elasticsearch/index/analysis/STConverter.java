@@ -15,7 +15,7 @@ public class STConverter {
 
     private Properties charMap = new Properties();
     private Properties revCharMap = new Properties();
-    private Set conflictingSets  = new HashSet();
+    private Set<String> conflictingSets  = new HashSet<String>();
     private static STConverter instance=new STConverter();
     
     public STConverter(){
@@ -65,10 +65,10 @@ public class STConverter {
                     String keySubstring = key.substring(0, i + 1);
                     if (stringPossibilities.containsKey(keySubstring)) {
                         Integer integer = (Integer)(stringPossibilities.get(keySubstring));
-                        stringPossibilities.put(keySubstring, new Integer(Integer.valueOf(integer) + 1));
+                        stringPossibilities.put(keySubstring, Integer.valueOf(integer) + 1);
 
                     } else {
-                        stringPossibilities.put(keySubstring, new Integer(1));
+                        stringPossibilities.put(keySubstring, 1);
                     }
 
                 }
@@ -78,7 +78,7 @@ public class STConverter {
         iter = stringPossibilities.keySet().iterator();
         while (iter.hasNext()) {
             String key = (String) iter.next();
-            int value = Integer.valueOf( (Integer)stringPossibilities.get(key) );
+            int value = (Integer)stringPossibilities.get(key);
             if (value > 1) {
                 conflictingSets.add(key);
             }
@@ -86,7 +86,7 @@ public class STConverter {
     }
 
     public String convert(STConvertType type,String in) {
-           Map map=charMap;
+           Map<Object, Object> map=charMap;
         if(type== STConvertType.SIMPLE_2_TRADITIONAL){
             map=revCharMap;
         }
@@ -125,7 +125,7 @@ public class STConverter {
         return getInstance().convert(converterType,text);
     }
 
-    private static void mapping(Map map, StringBuilder outString, StringBuilder stackString) {
+    private static void mapping(Map<Object, Object> map, StringBuilder outString, StringBuilder stackString) {
         while (stackString.length() > 0){
             if (map.containsKey(stackString.toString())) {
                 outString.append(map.get(stackString.toString()));

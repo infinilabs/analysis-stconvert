@@ -9,6 +9,8 @@ you can download this plugin from RTF project(https://github.com/medcl/elasticse
     --------------------------------------------------
     | STConvert  Analysis Plugin    | Elasticsearch   |
     --------------------------------------------------
+    | 1.8.5                        | 2.3.5            |
+    --------------------------------------------------
     | 1.8.4                        | 2.3.4            |
     --------------------------------------------------
     | 1.8.3                        | 2.3.3            |
@@ -77,78 +79,4 @@ Analyze tests
 ➜  ~  curl -XGET http://localhost:9200/index/_analyze\?text\=%e5%8c%97%e4%ba%ac%e5%9b%bd%e9%99%85%e7%94%b5%e8%a7%86%e5%8f%b0%2c%e5%8c%97%e4%ba%ac%e5%9c%8b%e9%9a%9b%e9%9b%bb%e8%a6%96%e8%87%ba\&tokenizer\=keyword\&char_filters\=stconvert
 {"tokens":[{"token":"北京國際電視檯","start_offset":0,"end_offset":7,"type":"word","position":0},{"token":"北京國際電視臺","start_offset":8,"end_offset":15,"type":"word","position":1}]}%  
 
-```
-
-Custom analyzer example:
-
-elasticsearch.yml
-
-```
-
-index:
-  analysis:
-
-    tokenizer:
-      s2t_convert:
-        type: stconvert
-        delimiter: ","
-        convert_type: s2t
-      t2s_convert:
-        type: stconvert
-        delimiter: ","
-        convert_type: t2s
-      s2t_keep_both_convert:
-        type: stconvert
-        delimiter: ","
-        keep_both: 'true'
-        convert_type: s2t
-      t2s_keep_both_convert:
-        type: stconvert
-        delimiter: ","
-        keep_both: 'true'
-        convert_type: t2s
-
-    filter:
-      s2t_convert:
-        type: stconvert
-        delimiter: ","
-        convert_type: s2t
-      t2s_convert:
-        type: stconvert
-        delimiter: ","
-        convert_type: t2s
-      s2t_keep_both_convert:
-        type: stconvert
-        delimiter: ","
-        keep_both: 'true'
-        convert_type: s2t
-      t2s_keep_both_convert:
-        type: stconvert
-        delimiter: ","
-        keep_both: 'true'
-        convert_type: t2s
-
-    analyzer:
-      stconvert:
-        alias:
-        - st_analyzer
-        type: stconvert
-      s2t_convert:
-        type: stconvert
-        delimiter: ","
-        convert_type: s2t
-      t2s_convert:
-        type: stconvert
-        delimiter: ","
-        convert_type: t2s
-      s2t_keep_both_convert:
-        type: stconvert
-        delimiter: ","
-        keep_both: 'true'
-        convert_type: s2t
-      t2s_keep_both_convert:
-        type: stconvert
-        delimiter: ","
-        keep_both: 'true'
-        convert_type: t2s
 ```
