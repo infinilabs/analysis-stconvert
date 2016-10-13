@@ -4,7 +4,7 @@ STConvert Analysis for Elasticsearch
 STConvert is analyzer that convert chinese characters between traditional and simplified.
 [中文简繁體转换][简体到繁体][繁体到简体][简繁查询Expand]
 
-you can download this plugin from RTF project(https://github.com/medcl/elasticsearch-rtf)
+You can download from here: https://github.com/medcl/elasticsearch-analysis-stconvert/releases
 
     --------------------------------------------------
     | STConvert  Analysis Plugin    | Elasticsearch   |
