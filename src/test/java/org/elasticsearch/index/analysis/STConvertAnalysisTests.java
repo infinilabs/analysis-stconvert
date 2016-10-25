@@ -24,19 +24,6 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.core.KeywordAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.elasticsearch.Version;
-import org.elasticsearch.cluster.metadata.IndexMetaData;
-import org.elasticsearch.common.inject.Injector;
-import org.elasticsearch.common.inject.ModulesBuilder;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.settings.SettingsModule;
-import org.elasticsearch.env.Environment;
-import org.elasticsearch.env.EnvironmentModule;
-import org.elasticsearch.index.Index;
-import org.elasticsearch.index.IndexNameModule;
-import org.elasticsearch.index.settings.IndexSettingsModule;
-import org.elasticsearch.indices.analysis.IndicesAnalysisService;
-import org.hamcrest.MatcherAssert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -44,38 +31,10 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.elasticsearch.common.settings.Settings.Builder.EMPTY_SETTINGS;
-import static org.elasticsearch.common.settings.Settings.settingsBuilder;
-import static org.hamcrest.Matchers.instanceOf;
-
 /**
  */
 public class STConvertAnalysisTests {
 
-    @Test
-    public void testAnalysis() {
-
-        Index index = new Index("test");
-        Settings settings = settingsBuilder()
-                .put("path.home", "/")
-                .put(IndexMetaData.SETTING_VERSION_CREATED, Version.CURRENT)
-                .build();
-        Injector parentInjector = new ModulesBuilder().add(new SettingsModule(Settings.builder().put("index.version.created",1).build()), new EnvironmentModule(new Environment(settings))).createInjector();
-        Injector injector = new ModulesBuilder().add(
-                new IndexSettingsModule(index, settings),
-                new IndexNameModule(index),
-                new AnalysisModule(Settings.EMPTY, parentInjector.getInstance(IndicesAnalysisService.class)).addProcessor(new STConvertAnalysisBinderProcessor()))
-                .createChildInjector(parentInjector);
-
-        AnalysisService analysisService = injector.getInstance(AnalysisService.class);
-
-        TokenizerFactory tokenizerFactory = analysisService.tokenizer("stconvert");
-        MatcherAssert.assertThat(tokenizerFactory, instanceOf(STConvertTokenizerFactory.class));
-
-        TokenFilterFactory tokenFilterFactory = analysisService.tokenFilter("stconvert");
-        MatcherAssert.assertThat(tokenFilterFactory, instanceOf(STConvertTokenFilterFactory.class));
-
-    }
 
     @Test
     public void testTokenFilter() throws IOException {

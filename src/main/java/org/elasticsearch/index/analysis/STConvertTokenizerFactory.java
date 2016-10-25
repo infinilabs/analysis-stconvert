@@ -1,11 +1,9 @@
 package org.elasticsearch.index.analysis;
 
 import org.apache.lucene.analysis.Tokenizer;
-import org.elasticsearch.common.inject.Inject;
-import org.elasticsearch.common.inject.assistedinject.Assisted;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.index.Index;
-import org.elasticsearch.index.settings.IndexSettingsService;
+import org.elasticsearch.env.Environment;
+import org.elasticsearch.index.IndexSettings;
 
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -24,20 +22,15 @@ import org.elasticsearch.index.settings.IndexSettingsService;
  * limitations under the License.
  */
 
-/**
- * @deprecated
- */
-@Deprecated
 public class STConvertTokenizerFactory extends AbstractTokenizerFactory {
 
    private String type="t2s";
    private String delimiter=",";
     private Boolean keepBoth=false;
 
-    @Inject
-    public STConvertTokenizerFactory(Index index, IndexSettingsService indexSettingsService, @Assisted String name, @Assisted Settings settings) {
-        super(index, indexSettingsService.getSettings(), name, settings);
-         type = settings.get("convert_type", "t2s");
+    public STConvertTokenizerFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
+        super(indexSettings, name, settings);
+         type = settings.get("convert_type", "s2t");
          delimiter = settings.get("delimiter", ",");
          String keepBothStr = settings.get("keep_both", "false");
         if(keepBothStr.equals("true")) {
@@ -47,9 +40,9 @@ public class STConvertTokenizerFactory extends AbstractTokenizerFactory {
 
     @Override
     public Tokenizer create() {
-        STConvertType convertType= STConvertType.TRADITIONAL_2_SIMPLE;
-        if(type.equals("s2t")){
-            convertType = STConvertType.SIMPLE_2_TRADITIONAL;
+        STConvertType convertType= STConvertType.SIMPLE_2_TRADITIONAL;
+        if(type.equals("t2s")){
+            convertType = STConvertType.TRADITIONAL_2_SIMPLE;
         }
 
         return new STConvertTokenizer(convertType, delimiter,keepBoth);

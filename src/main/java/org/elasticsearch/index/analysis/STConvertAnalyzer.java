@@ -15,33 +15,24 @@ package org.elasticsearch.index.analysis;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import org.apache.lucene.analysis.Analyzer;
 import org.elasticsearch.common.settings.Settings;
 
 
 public final class STConvertAnalyzer extends Analyzer {
 
-
     private String delimiter;
-    private String type;
+    private STConvertType convertType;
     private Boolean keepBoth=false;
-
-
-    public STConvertAnalyzer(Settings settings) {
-        type = settings.get("convert_type", "t2s");
-        delimiter = settings.get("delimiter", ",");
-        String keepBothStr = settings.get("keep_both", "false");
-        if(keepBothStr.equals("true")){
-            keepBoth=true;
-        }
+    public STConvertAnalyzer(STConvertType type,String delimiter,boolean keepBoth) {
+        this.convertType=type;
+        this.delimiter=delimiter;
+        this.keepBoth=keepBoth;
     }
 
     @Override
     protected TokenStreamComponents createComponents(String fieldName) {
-        STConvertType convertType= STConvertType.TRADITIONAL_2_SIMPLE;
-        if(type.equals("s2t")){
-            convertType = STConvertType.SIMPLE_2_TRADITIONAL;
-        }
         return  new TokenStreamComponents(new STConvertTokenizer(convertType, delimiter,keepBoth));
     }
 
