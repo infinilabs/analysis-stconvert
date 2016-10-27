@@ -7,9 +7,9 @@ STConvert is analyzer that convert Chinese characters between Traditional and Si
 You can download from here: https://github.com/medcl/elasticsearch-analysis-stconvert/releases
 
     --------------------------------------------------
-    | STConvert  Analysis Plugin   | Elasticsearch   |
+    | STConvert  Analysis Plugin   | Elasticsearch    |
     --------------------------------------------------
-    | 5.0.0-rc1                    | 5.0.0-rc1        |
+    | 5.0.0                        | 5.0.0            |
     --------------------------------------------------
     | 1.9.1                        | 2.4.1            |
     --------------------------------------------------
