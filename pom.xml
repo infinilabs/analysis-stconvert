@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.infinitbyte</groupId>
     <artifactId>elasticsearch-analysis-stconvert</artifactId>
-    <version>1.9.4</version>
+    <version>1.9.5</version>
     <packaging>jar</packaging>
     <url>http://log.medcl.net</url>
     <description>stconvert is a analysis plugin that convert Chinese characters between traditional and simplified.</description>
@@ -32,7 +32,7 @@
     </parent>
 
     <properties>
-        <elasticsearch.version>2.4.4</elasticsearch.version>
+        <elasticsearch.version>2.4.5</elasticsearch.version>
         <maven.compiler.target>1.7</maven.compiler.target>
         <elasticsearch.assembly.descriptor>${project.basedir}/src/main/assemblies/plugin.xml</elasticsearch.assembly.descriptor>
         <elasticsearch.plugin.name>analysis-stconvert</elasticsearch.plugin.name>
