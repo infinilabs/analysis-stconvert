@@ -9,7 +9,7 @@ You can download from here: https://github.com/medcl/elasticsearch-analysis-stco
     --------------------------------------------------
     | STConvert  Analysis Plugin   | Elasticsearch    |
     --------------------------------------------------
-    | 5.5.1                        | 5.5.1            |
+    | 5.5.2                        | 5.5.2            |
     --------------------------------------------------
     | 5.4.3                        | 5.4.3            |
     --------------------------------------------------
@@ -81,8 +81,6 @@ PUT /stconvert/
             "char_filter" : {
                 "tsconvert" : {
                     "type" : "stconvert",
-                    "delimiter" : "#",
-                    "keep_both" : false,
                     "convert_type" : "t2s"
                 }
             }
