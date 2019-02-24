@@ -13,13 +13,13 @@ The plugin includes  analyzer: `stconvert`,
 
 Supported config:
 
-- `delimiter`:default `,`
-
-- `keep_both`:default `false` ,
-
 - `convert_type`: default `s2t` ,optional option:
     1. `s2t` ,convert characters from Simple Chinese to Traditional Chinese
     2. `t2s` ,convert characters from Traditional Chinese to Simple Chinese
+
+- `keep_both`:default `false` ,
+
+- `delimiter`:default `,`
 
 
 Custom example:
