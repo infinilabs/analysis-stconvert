@@ -27,7 +27,7 @@ Custom example:
 ```
 PUT /stconvert/
 {
-    "index" : {
+    "settings" : {
         "analysis" : {
             "analyzer" : {
                 "tsconvert" : {
@@ -72,6 +72,8 @@ GET stconvert/_analyze
   "char_filter" : ["tsconvert"],
   "text" : "国际國際"
 }
+
+Output：
 {
   "tokens": [
     {
