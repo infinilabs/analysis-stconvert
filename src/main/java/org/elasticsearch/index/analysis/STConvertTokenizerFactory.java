@@ -29,7 +29,7 @@ public class STConvertTokenizerFactory extends AbstractTokenizerFactory {
     private Boolean keepBoth=false;
 
     public STConvertTokenizerFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
-        super(indexSettings, settings);
+        super(indexSettings, settings, name);
          type = settings.get("convert_type", "s2t");
          delimiter = settings.get("delimiter", ",");
          String keepBothStr = settings.get("keep_both", "false");
