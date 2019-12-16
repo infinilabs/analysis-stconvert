@@ -25,7 +25,7 @@ import org.elasticsearch.index.IndexSettings;
 
 import java.io.Reader;
 
-public class STConvertCharFilterFactory extends AbstractCharFilterFactory {
+public class STConvertCharFilterFactory extends AbstractCharFilterFactory implements  MultiTermAwareComponent{
 
     STConvertType convertType = STConvertType.SIMPLE_2_TRADITIONAL;
 
@@ -44,5 +44,15 @@ public class STConvertCharFilterFactory extends AbstractCharFilterFactory {
     public Reader create(Reader tokenStream) {
 
         return new STConvertCharFilter(tokenStream, convertType);
+    }
+    @Override
+    public Reader create(Reader tokenStream) {
+
+        return new STConvertCharFilter(tokenStream, convertType);
+    }
+
+    @Override
+    public Object getMultiTermComponent() {
+        return this;
     }
 }
