@@ -22,10 +22,11 @@ package org.elasticsearch.index.analysis;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
+import org.elasticsearch.index.analysis.NormalizingCharFilterFactory;
 
 import java.io.Reader;
 
-public class STConvertCharFilterFactory extends AbstractCharFilterFactory {
+public class STConvertCharFilterFactory extends AbstractCharFilterFactory  implements NormalizingCharFilterFactory{
 
     STConvertType convertType = STConvertType.SIMPLE_2_TRADITIONAL;
 

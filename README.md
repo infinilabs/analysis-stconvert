@@ -86,3 +86,69 @@ Output：
   ]
 }
 ```
+
+Normalizer usage
+
+```
+DELETE index
+PUT index
+{
+  "settings": {
+    "analysis": {
+      "char_filter": {
+        "tsconvert": {
+          "type": "stconvert",
+          "convert_type": "t2s"
+        }
+      },
+      "normalizer": {
+        "my_normalizer": {
+          "type": "custom",
+          "char_filter": [
+            "tsconvert"
+          ],
+          "filter": [
+            "lowercase"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "foo": {
+        "type": "keyword",
+        "normalizer": "my_normalizer"
+      }
+    }
+  }
+}
+
+PUT index/_doc/1
+{
+  "foo": "國際"
+}
+
+PUT index/_doc/2
+{
+  "foo": "国际"
+}
+
+GET index/_search
+{
+  "query": {
+    "term": {
+      "foo": "国际"
+    }
+  }
+}
+
+GET index/_search
+{
+  "query": {
+    "term": {
+      "foo": "國際"
+    }
+  }
+}
+```
