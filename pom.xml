@@ -39,6 +39,7 @@
         <skip.unit.tests>true</skip.unit.tests>
         <gpg.keyname>4E899B30</gpg.keyname>
         <gpg.useagent>true</gpg.useagent>
+    	<closeTestReports>true</closeTestReports>
     </properties>
 
     <parent>
@@ -126,6 +127,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
+                <configuration>
+                	<disableXmlReport>${closeTestReports}</disableXmlReport>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
