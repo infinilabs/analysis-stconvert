@@ -28,7 +28,7 @@ public class STConvertTokenFilterFactory extends AbstractTokenFilterFactory {
     private Boolean keepBoth=false;
 
     public STConvertTokenFilterFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
-        super(name, settings);
+        super(indexSettings, name, settings);
         type = settings.get("convert_type", "s2t");
         delimiter = settings.get("delimiter", ",");
         String keepBothStr = settings.get("keep_both", "false");
