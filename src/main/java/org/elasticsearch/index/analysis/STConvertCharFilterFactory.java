@@ -31,7 +31,7 @@ public class STConvertCharFilterFactory extends AbstractCharFilterFactory  imple
     STConvertType convertType = STConvertType.SIMPLE_2_TRADITIONAL;
 
     public STConvertCharFilterFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
-        super(indexSettings, name);
+        super(name);
 
         String type = settings.get("convert_type", "s2t");
 
