@@ -25,7 +25,7 @@ public class STConvertAnalyzerProvider extends AbstractIndexAnalyzerProvider<STC
     private final STConvertAnalyzer analyzer;
 
     public STConvertAnalyzerProvider(IndexSettings indexSettings, Environment env, String name, Settings settings) {
-        super(name, settings);
+        super(indexSettings,name, settings);
         Boolean keepBoth = false;
         String type = settings.get("convert_type", "s2t");
         String delimiter = settings.get("delimiter", ",");
