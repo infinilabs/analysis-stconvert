@@ -29,8 +29,8 @@
     </developers>
 
     <properties>
-        <elasticsearch.version>8.4.1</elasticsearch.version>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <elasticsearch.version>8.9.1</elasticsearch.version>
+        <maven.compiler.target>17</maven.compiler.target>
         <elasticsearch.assembly.descriptor>${project.basedir}/src/main/assemblies/plugin.xml</elasticsearch.assembly.descriptor>
         <elasticsearch.plugin.name>analysis-stconvert</elasticsearch.plugin.name>
         <elasticsearch.plugin.classname>org.elasticsearch.plugin.analysis.stconvert.AnalysisSTConvertPlugin</elasticsearch.plugin.classname>
