@@ -6,6 +6,9 @@ STConvert is analyzer that convert Chinese characters between Traditional and Si
 
 You can download the pre-build package from [release page](https://github.com/medcl/elasticsearch-analysis-stconvert/releases)
 
+> If some version was not released in time, instead of request version by raising issue, please kindly reach out by join this discord channel( [https://discord.gg/NtZgghfW](https://discord.gg/NtZgghfW)).
+
+
 The plugin includes  analyzer: `stconvert`,
  tokenizer: `stconvert`,
  token-filter:  `stconvert`,
@@ -152,3 +155,7 @@ GET index/_search
   }
 }
 ```
+
+# Community
+
+[https://discord.gg/NtZgghfW](https://discord.gg/NtZgghfW)
