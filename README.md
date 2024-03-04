@@ -1,18 +1,18 @@
-STConvert Analysis for Elasticsearch
+STConvert Analysis for Elasticsearch and OpenSearch
 ==================================
 
-STConvert is analyzer that convert Chinese characters between Traditional and Simplified.
-[中文简繁體转换][简体到繁体][繁体到简体][简繁查询Expand]
+![](./assets/banner.png)
 
-You can download the pre-build package from [release page](https://github.com/medcl/elasticsearch-analysis-stconvert/releases)
 
-> If some version was not released in time, instead of request version by raising issue, please kindly reach out by join this discord channel( [https://discord.gg/NtZgghfW](https://discord.gg/NtZgghfW)).
+STConvert is analyzer that convert Chinese characters between Traditional and Simplified. It supports major versions of Elasticsearch and OpenSearch. Maintained and supported with ❤️ by INFINI Labs.
 
 
 The plugin includes  analyzer: `stconvert`,
  tokenizer: `stconvert`,
  token-filter:  `stconvert`,
  and char-filter: `stconvert`
+
+# Optional Parameters
 
 Supported config:
 
@@ -25,7 +25,9 @@ Supported config:
 - `delimiter`:default `,`
 
 
-Custom example:
+# Quick Start
+
+Quick example:
 
 ```
 PUT /stconvert/
@@ -156,6 +158,25 @@ GET index/_search
 }
 ```
 
+
 # Community
 
-[https://discord.gg/NtZgghfW](https://discord.gg/NtZgghfW)
+Fell free to join the Discord server to discuss anything around this project: 
+
+[https://discord.gg/4tKTMkkvVX](https://discord.gg/4tKTMkkvVX)
+
+# License
+
+Copyright ©️ INFINI Labs.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
