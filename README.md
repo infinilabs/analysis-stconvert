@@ -4,7 +4,7 @@ STConvert Analysis for Elasticsearch and OpenSearch
 ![](./assets/banner.png)
 
 
-STConvert is analyzer that convert Chinese characters between Traditional and Simplified. It supports major versions of Elasticsearch and OpenSearch. Maintained and supported with ❤️ by INFINI Labs.
+STConvert is analyzer that convert Chinese characters between Traditional and Simplified. It supports major versions of Elasticsearch and OpenSearch. Maintained and supported with ❤️ by [INFINI Labs](https://infinilabs.com).
 
 
 The plugin includes  analyzer: `stconvert`,
@@ -25,9 +25,30 @@ Supported config:
 - `delimiter`:default `,`
 
 
-# Quick Start
+# How to Install
 
-Quick example:
+You can download the packaged plugins from here: `https://release.infinilabs.com/`, 
+
+or you can use the `plugin` cli to install the plugin like this:
+
+For Elasticsearch
+
+```
+bin/elasticsearch-plugin install https://get.infini.cloud/elasticsearch/analysis-stconvert/8.4.1
+```
+
+For OpenSearch
+
+```
+bin/opensearch-plugin install https://get.infini.cloud/opensearch/analysis-stconvert/2.12.0
+```
+
+Tips: replace your own version number related to your elasticsearch or opensearch.
+
+
+# Getting Started
+
+Mapping example:
 
 ```
 PUT /stconvert/
